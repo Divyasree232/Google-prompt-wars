@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StadiumSync | Smart Infrastructure System</title>
+    <meta name="description" content="A real-time AI-powered stadium experience and operations platform managing operations, heatmaps, and user interactions.">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i data-lucide="radar"></i>
+                StadiumSync
+            </div>
+            
+            <div class="nav-item active" data-target="dashboard" id="nav-dash">
+                <i data-lucide="layout-dashboard"></i>Dashboard
+            </div>
+            <div class="nav-item" data-target="map" id="nav-map">
+                <i data-lucide="map"></i>Facility Map
+            </div>
+            <div class="nav-item" data-target="community" id="nav-community">
+                <i data-lucide="users"></i>Community
+            </div>
+            <div class="nav-item" data-target="profile" id="nav-profile">
+                <i data-lucide="award"></i>Gamification
+            </div>
+            <div class="nav-item" data-target="admin" id="nav-admin">
+                <i data-lucide="shield-alert"></i>Command Center
+            </div>
+            <div class="nav-item" data-target="auth" id="nav-auth">
+                <i data-lucide="log-in"></i>Login/Signup
+            </div>
+
+            <div style="flex:1"></div>
+            <button class="btn" style="background:var(--danger); color:white; width: 100%" id="emergency-btn">
+                <i data-lucide="bell-ring"></i> Report Issue
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Dashboard View -->
+            <section id="dashboard" class="view active">
+                <header class="header-top">
+                    <!-- Kept clean and minimal -->
+                    <div>
+                        <h1 style="font-size:2.2rem; margin-bottom:0.3rem">Smart Infrastructure Hub</h1>
+                        <p style="color:var(--text-secondary)">Your dynamic match-day companion.</p>
+                    </div>
+                </header>
+
+                <div class="dashboard-grid">
+                    <div class="glass-panel stat-card alert">
+                        <h3>Match Status</h3>
+                        <div class="stat-value">LIVE</div>
+                        <p style="color:var(--text-secondary); margin-top:0.5rem">75th Minute - Level 1-1</p>
+                    </div>
+                    <div class="glass-panel stat-card">
+                        <h3>Active Facilities</h3>
+                        <div class="stat-value" id="dash-facilities">Loading...</div>
+                        <p style="color:var(--text-secondary); margin-top:0.5rem">Live tracked zones</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Map View -->
+            <section id="map" class="view">
+                <header class="header-top">
+                    <div>
+                        <h1 style="font-size:2.2rem; margin-bottom:0.3rem">Facility Interaction Map</h1>
+                        <p style="color:var(--text-secondary)">Click icons to view live occupancy, menus, and wait times.</p>
+                    </div>
+                </header>
+                <div class="map-container glass-panel">
+                    <div class="stadium-graphic" id="stadium-map-area">
+                        <div class="field"></div>
+                        <!-- Database renders Map Pins Here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Community & Profile placeholder to retain structure -->
+            <section id="community" class="view">
+                <header class="header-top"><h1>Fan Collaboration</h1></header>
+                <div class="glass-panel" style="padding: 2rem"><p>Real-time community updates feed goes here.</p></div>
+            </section>
+            <section id="profile" class="view">
+                <header class="header-top"><h1>Gamification Profile</h1></header>
+                <div class="glass-panel" style="padding: 2rem"><p>Badges and points mapping.</p></div>
+            </section>
+
+            <!-- Admin View -->
+            <section id="admin" class="view">
+                <header class="header-top">
+                    <div>
+                        <h1 style="font-size:2.2rem; margin-bottom:0.3rem">Command Center</h1>
+                        <p style="color:var(--text-secondary)">Admin infrastructure control and overrides.</p>
+                    </div>
+                </header>
+                <div class="glass-panel" style="padding: 2rem">
+                    <h2 style="margin-bottom: 1.5rem; display:flex; align-items:center; gap:0.5rem">
+                        <i data-lucide="settings-2" style="color:var(--warning)"></i> Live Facility Controls
+                    </h2>
+                    <p style="color:var(--text-secondary); margin-bottom:1.5rem">Click any facility below to adjust its capacity or force specific closures.</p>
+                    <div id="admin-facility-list" style="display:flex; flex-direction:column; gap:1rem">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Auth View -->
+            <section id="auth" class="view">
+               <div style="display:flex; justify-content:center; align-items:center; height:100%">
+                   <h1>Auth Base. Working.</h1>
+               </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Facility Detail Modal -->
+    <div class="report-modal" id="facility-modal">
+        <div class="modal-content" id="facility-modal-content">
+            <!-- Dynamically Populated by App.js -->
+        </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="ai-panel collapsed" id="ai-panel">
+        <div class="ai-header" id="ai-header">
+            <span style="display:flex; align-items:center; gap:0.8rem">
+                <div style="width:32px; height:32px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--primary)">
+                    <i data-lucide="bot" style="width:20px; height:20px"></i>
+                </div>
+                <span class="ai-title">Infrastructure AI</span>
+            </span>
+            <i data-lucide="chevron-down" class="ai-toggle"></i>
+        </div>
+        <div class="ai-body">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message msg-ai">Hi! Ask me things like "Where is the nearest empty restroom?" or "Which food stall has the fastest service option?"</div>
+            </div>
+            <div class="ai-input">
+                <input type="text" id="ai-text-input" placeholder="Ask AI anything..." autocomplete="off">
+                <button id="ai-send-btn"><i data-lucide="send" style="width:20px; height:20px; transform:translateX(-1px)"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
